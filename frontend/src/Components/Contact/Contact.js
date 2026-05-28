@@ -23,8 +23,11 @@ function Contact() {
     e.preventDefault();
     setLoading(true);
 
+    // Dynamic API URL: Uses Render's variable if live, falls back to localhost if running on your PC
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
     try {
-      const response = await fetch("http://localhost:5000/send-email", {
+      const response = await fetch(`${apiUrl}/send-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +59,7 @@ function Contact() {
   };
 
   return (
-    <div className="contact-container">
+    <div id='contact' className="contact-container">
       <h2 className="contact-title"> Get in touch </h2> 
       
       <h2 className="contact-tagline"> Let's build<br />
