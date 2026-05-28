@@ -12,6 +12,8 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "https://backend-1d7k.onrender.com"
+  ,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -28,6 +28,7 @@ const skills = {
   BackEnd: [
     { name: "MySQL",       icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",           prof: 2 },
     { name: "C#",       icon: "https://cdn.jsdelivr.net/npm/@programming-languages-logos/csharp/csharp.svg",           prof: 3 },
+    { name: "MongoDB",       icon: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/mongodb.svg",           prof: 3 },
     
   ],
 };
