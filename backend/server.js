@@ -9,7 +9,8 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/send-email", async (req, res) => {
-  const { email, subject, message } = req.body;
+  // 1. Accept name and surname from the frontend request
+  const { name, surname, email, subject, message } = req.body;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -17,16 +18,21 @@ app.post("/send-email", async (req, res) => {
       port: 587,
       secure: false,
       auth: {
-        user: process.env.OUTLOOK_EMAIL||'601829@student.belgiumcampus.ac.za',
-        pass: process.env.OUTLOOK_PASSWORD||'BC64@Bakker2025',
+        user: process.env.OUTLOOK_EMAIL,
+        pass: process.env.OUTLOOK_PASSWORD,
       },
     });
 
     const mailOptions = {
-      from: email,
-      to: process.env.OUTLOOK_EMAIL||'601829@student.belgiumcampus.ac.za',
-      subject: subject || "No Subject",
-      text: `From: ${email}\n\nMessage:\n${message}`,
+      from: process.env.OUTLOOK_EMAIL, 
+      to: process.env.OUTLOOK_EMAIL,   
+      replyTo: email, 
+      subject: subject || "Portfolio Contact Form",
+      text: `You have received a new message from your portfolio website:\n\n` +
+            `Sender: ${name} ${surname}\n` +
+            `Email: ${email}\n\n` +
+            `Subject: ${subject}\n` +
+            `Message:\n${message}`,
     };
 
     await transporter.sendMail(mailOptions);

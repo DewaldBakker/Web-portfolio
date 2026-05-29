@@ -23,7 +23,6 @@ function Contact() {
     e.preventDefault();
     setLoading(true);
 
-    // Dynamic API URL: Uses Render's variable if live, falls back to localhost if running on your PC
     const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
     try {
@@ -32,7 +31,8 @@ function Contact() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        // This sends name, surname, email, subject, and message altogether
+        body: JSON.stringify(formData), 
       });
 
       const data = await response.json();
@@ -68,7 +68,7 @@ function Contact() {
 
       <p className="contact-desc"> 
         Open to junior roles, freelance work, or collaborations. Whether it's a project idea or just a coffee chat about code — I'm in.
-         </p>
+      </p>
 
       <form onSubmit={handleSubmit} className="contact-form">
         <input
