@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
+// Open global CORS access to allow localhost and your netlify/github pages frontend
 app.use(cors());
 app.use(express.json());
 
@@ -12,16 +13,20 @@ app.post("/send-email", async (req, res) => {
   const { name, surname, email, subject, message } = req.body;
 
   try {
-    // UPDATED FOR GMAIL CONFIGURATION
+    // Production configuration optimized for Render outbound channels
     const transporter = nodemailer.createTransport({
+      service: "gmail", 
       host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      family: 4,
+      port: 587,
+      secure: false, // Must be false for port 587
+      family: 4,     // Explicitly forces IPv4 routing lanes to bypass network socket failures
       auth: {
-        user: process.env.OUTLOOK_EMAIL,
-        pass: process.env.OUTLOOK_PASSWORD,
+        user: process.env.OUTLOOK_EMAIL,     // Stays flexible to match Render variables
+        pass: process.env.OUTLOOK_PASSWORD,  // Stays flexible to match Render variables
       },
+      tls: {
+        rejectUnauthorized: false // Bypasses security gateway drops on cloud clusters
+      }
     });
 
     const mailOptions = {
@@ -37,15 +42,16 @@ app.post("/send-email", async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
+    return res.status(200).json({ message: "Email sent successfully" });
 
-    res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
-    console.error("EMAIL ERROR:", error);
-    res.status(500).json({ message: "Failed to send email", error: error.message });
+    console.error("EMAIL ERRORSTACK:", error);
+    return res.status(500).json({ message: "Failed to send email", error: error.message });
   }
 });
 
+// Dynamic port routing for Render runtime container
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running safely on port ${PORT}`);
 });
