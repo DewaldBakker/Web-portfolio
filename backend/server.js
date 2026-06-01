@@ -35,7 +35,7 @@ app.post("/send-email", async (req, res) => {
     // Overwrite your old Nodemailer configuration with this native Resend API method
     const data = await resend.emails.send({
       from: 'onboarding@resend.dev', // Resend's default sandbox domain
-      to: '601829@student.belgiumcampus.ac.za', // Your target student inbox destination
+      to: 'barendbakker007@gmail.com', // Your target student inbox destination
       replyTo: email, // If you click 'Reply' in your inbox, it replies to the website visitor
       subject: subject || "Portfolio Contact Form",
       html: `
