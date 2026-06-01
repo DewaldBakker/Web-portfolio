@@ -29,16 +29,20 @@ app.post("/send-email", async (req, res) => {
 
   try {
     // Production configuration optimized for Gmail outbound routing
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true, // Use true for secure port 465
-      auth: {
-        user: process.env.EMAIL_USER, // Set this in your Render environment settings
-        pass: process.env.EMAIL_PASS, // Set your Google App Password here
-      },
-    });
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,         // Switch from 465 to 587
+  secure: false,     // MUST be false when using port 587
+  family: 4,         // Explicitly forces IPv4 routing to bypass Render socket hiccups
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false // Prevents security gateway drops on cloud clusters
+  }
+});
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
