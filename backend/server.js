@@ -14,7 +14,7 @@ app.post("/send-email", async (req, res) => {
   try {
     // UPDATED FOR GMAIL CONFIGURATION
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
+      host: "smtp.office365.com",
       port: 465,
       secure: true,
       family: 4,
