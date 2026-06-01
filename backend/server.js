@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
-import { Resend } from 'resend';
+const { Resend } = require("resend");
 
 // Configure CORS to grant smooth access to your Vercel deployment and local testing environment
 app.use(
