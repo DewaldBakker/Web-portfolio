@@ -9,7 +9,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://your-portfolio-username.vercel.app", // Replace with your real live Vercel URL
+      "https://web-portfolio-1-yfnm.onrender.com", // Replace with your real live Vercel URL
       "http://localhost:3000"
     ],
     methods: ["POST", "GET", "OPTIONS"],
