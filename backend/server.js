@@ -9,6 +9,7 @@ const app = express(); // Kept right here to fix the "app is not defined" issue
 app.use(
   cors({
     origin: [
+      "https://web-portfolio-1-yfnm.onrender.com",
       "https://dewald-portfolio-ac0sqz77s-dewaldbakers-projects.vercel.app", 
       "http://localhost:3000"
     ],
