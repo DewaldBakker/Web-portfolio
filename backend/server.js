@@ -9,14 +9,14 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/send-email", async (req, res) => {
-  // 1. Accept name and surname from the frontend request
   const { name, surname, email, subject, message } = req.body;
 
   try {
+    // UPDATED FOR GMAIL CONFIGURATION
     const transporter = nodemailer.createTransport({
-      host: "smtp.office365.com",
-      port: 587,
-      secure: false,
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // Use true for port 465
       auth: {
         user: process.env.OUTLOOK_EMAIL,
         pass: process.env.OUTLOOK_PASSWORD,
@@ -40,10 +40,12 @@ app.post("/send-email", async (req, res) => {
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
     console.error("EMAIL ERROR:", error);
-    res.status(500).json({ message: "Failed to send email" });
+    res.status(500).json({ message: "Failed to send email", error: error.message });
   }
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Use Render's dynamic port environment variable, fallback to 5000 locally
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
