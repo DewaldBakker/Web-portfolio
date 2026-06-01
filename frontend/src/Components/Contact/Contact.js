@@ -20,18 +20,19 @@ function Contact() {
   };
 
   const handleSubmit = async (e) => {
+    // 1. Instantly prevent the browser from reloading the page
     e.preventDefault();
     setLoading(true);
 
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+    const apiUrl = "https://web-portfolio-7ugg.onrender.com";
 
     try {
+      // 2. Perform the actual network dispatch
       const response = await fetch(`${apiUrl}/send-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        // This sends name, surname, email, subject, and message altogether
         body: JSON.stringify(formData), 
       });
 
@@ -51,7 +52,7 @@ function Contact() {
         alert(data.message || "Failed to send email");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Frontend Fetch Error:", error);
       alert("Server error sending email");
     }
 
@@ -70,6 +71,7 @@ function Contact() {
         Open to junior roles, freelance work, or collaborations. Whether it's a project idea or just a coffee chat about code — I'm in.
       </p>
 
+      {/* Ensure the onSubmit handler is tied directly to the form element */}
       <form onSubmit={handleSubmit} className="contact-form">
         <input
           type="text"
@@ -116,6 +118,7 @@ function Contact() {
           required
         />
 
+        {/* Keeping type="submit" ensures HTML5 validation triggers correctly */}
         <button type="submit" disabled={loading}>
           {loading ? "Sending..." : "Send Email"}
         </button>
