@@ -1,17 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const nodemailer = require("nodemailer");
 require("dotenv").config();
-const { Resend } = require("resend");
+const { Resend } = require("resend"); // Keeps the Resend import you added
 
+const app = express(); // Kept right here to fix the "app is not defined" issue
 
-const app = express();
-
-// Configure CORS to grant smooth access to your Vercel deployment and local testing environment
+// Configure CORS to grant smooth access to your testing environment
 app.use(
   cors({
     origin: [
-      "https://web-portfolio-1-yfnm.onrender.com", // Replace with your real live Vercel URL
+      "https://web-portfolio-1-yfnm.onrender.com", 
       "http://localhost:3000"
     ],
     methods: ["POST", "GET", "OPTIONS"],
@@ -21,48 +19,38 @@ app.use(
 
 app.use(express.json());
 
+// Initialize your Resend instance using the API key hidden in your Render Environment settings
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 // A simple root GET route used to wake up the Render instance when the user loads the portfolio
 app.get("/", (req, res) => {
   res.status(200).send("Portfolio backend server is awake and running!");
 });
 
 app.post("/send-email", async (req, res) => {
+  // Destructure the user's form input from the incoming request body
   const { name, surname, email, subject, message } = req.body;
 
   try {
-    // Production configuration optimized for Gmail outbound routing
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  host: "smtp.gmail.com",
-  port: 587,         // Switch from 465 to 587
-  secure: false,     // MUST be false when using port 587
-  family: 4,         // Explicitly forces IPv4 routing to bypass Render socket hiccups
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false // Prevents security gateway drops on cloud clusters
-  }
-});
-
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Sends the email straight to your own inbox
-      replyTo: email, // Clicking 'Reply' in your email client will reply to the sender instead of yourself
+    // Overwrite your old Nodemailer configuration with this native Resend API method
+    const data = await resend.emails.send({
+      from: 'onboarding@resend.dev', // Resend's default sandbox domain
+      to: '601829@student.belgiumcampus.ac.za', // Your target student inbox destination
+      replyTo: email, // If you click 'Reply' in your inbox, it replies to the website visitor
       subject: subject || "Portfolio Contact Form",
-      text:
-        `You have received a new message from your portfolio website:\n\n` +
-        `Sender: ${name} ${surname}\n` +
-        `Email: ${email}\n\n` +
-        `Subject: ${subject}\n` +
-        `Message:\n${message}`,
-    };
+      html: `
+        <h3>You have received a new message from your portfolio website:</h3>
+        <p><strong>Sender:</strong> ${name} ${surname}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      ` // We transformed the plain text email layout into clean HTML formatting
+    });
 
-    await transporter.sendMail(mailOptions);
-    return res.status(200).json({ message: "Email sent successfully" });
+    return res.status(200).json({ message: "Email sent successfully", data });
   } catch (error) {
-    console.error("EMAIL ERRORSTACK:", error);
+    console.error("RESEND ERRORSTACK:", error);
     return res.status(500).json({ message: "Failed to send email", error: error.message });
   }
 });
