@@ -16,7 +16,8 @@ app.post("/send-email", async (req, res) => {
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
-      secure: true, // Use true for port 465
+      secure: true,
+      family: 4,
       auth: {
         user: process.env.OUTLOOK_EMAIL,
         pass: process.env.OUTLOOK_PASSWORD,
@@ -44,7 +45,6 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
-// Use Render's dynamic port environment variable, fallback to 5000 locally
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
