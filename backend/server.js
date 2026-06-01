@@ -8,11 +8,20 @@ const app = express(); // Kept right here to fix the "app is not defined" issue
 // Configure CORS to grant smooth access to your testing environment
 app.use(
   cors({
-    origin: [
-      "https://web-portfolio-1-yfnm.onrender.com",
-      "https://dewald-portfolio-ac0sqz77s-dewaldbakers-projects.vercel.app", 
-      "http://localhost:3000"
-    ],
+    origin: function (origin, callback) {
+      // Allow local development or requests with no origin (like mobile apps/Postman)
+      if (!origin || origin.startsWith("http://localhost:")) {
+        return callback(null, true);
+      }
+      
+      // Allow ANY Vercel deployment domain automatically
+      if (origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+      
+      // If it's a completely different domain, reject it
+      return callback(new Error("Not allowed by CORS"));
+    },
     methods: ["POST", "GET", "OPTIONS"],
     credentials: true,
   })
