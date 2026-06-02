@@ -15,8 +15,10 @@ function Home({ img, name, about, gname, Ido,github,linkedin }) {
           <h3 className="job-title">
             Front-end Developer / UI Designer
           </h3>
-          
-
+          <div className='links'>
+          <a href='https://github.com/DewaldBakker'><img src='Github.png'/></a>
+          <a href='https://www.linkedin.com/in/dewald-bakker-b498403b2/'><img src='Linkedin.png'/></a>
+          </div>
 
         </div>
 

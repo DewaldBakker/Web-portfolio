@@ -8,8 +8,6 @@
   overflow-x: hidden;
 }
 
-
-
 .portfolio-section {
   background-color: #209B6E;
   color: white;
@@ -41,22 +39,24 @@
   letter-spacing: 0.4em;
   text-transform: uppercase;
   font-size: 1rem;
-    position: relative;
+  position: relative;
   z-index: 1;
+  max-width: 90%;
+  box-sizing: border-box;
+  text-align: center;
 }
-
-
 
 .portfolio-filter-bar {
   display: flex;
   justify-content: center;
   gap: 40px;
-  padding: 40px 0;
+  padding: 40px 20px;
   background-color: #06402B;
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
+  flex-wrap: wrap;
 }
 
 .portfolio-filter-bar span {
@@ -73,7 +73,6 @@
   padding-bottom: 6px;
 }
 
-
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -81,7 +80,8 @@
   padding: 80px 10%;
   background-color: #06402B;
 }
-a{
+
+a {
   color: white;
 }
 
@@ -103,7 +103,6 @@ a{
   object-fit: cover;
 }
 
-
 .portfolio-overlay {
   position: absolute;
   inset: 0;
@@ -113,10 +112,8 @@ a{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   opacity: 0;
   transition: 0.3s;
-  text-align: center;
 }
 
 .circle-container:hover .portfolio-overlay {
@@ -140,11 +137,9 @@ a{
 .word-cloud-tile {
   background: #111;
   min-height: 320px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 30px;
   text-align: center;
 }
@@ -165,11 +160,14 @@ a{
   background-color: #06402B;
 }
 
-
-
 @media (max-width: 992px) {
   .portfolio-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+  .portfolio-filter-bar {
+    font-size: 1.5rem;
+    gap: 25px;
   }
 }
 
@@ -177,11 +175,22 @@ a{
   .portfolio-grid {
     grid-template-columns: 1fr;
     padding: 60px 8%;
+    gap: 40px;
   }
 
   .section-header-box {
     padding: 12px 28px;
     font-size: 0.9rem;
     letter-spacing: 0.25em;
+  }
+
+  .portfolio-filter-bar {
+    font-size: 1.2rem;
+    gap: 20px;
+    padding: 30px 15px;
+  }
+  
+  .circle-container:hover .portfolio-overlay {
+    border: solid black 5px;
   }
 }

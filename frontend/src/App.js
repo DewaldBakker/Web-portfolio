@@ -13,8 +13,6 @@ import Portfolio from './Components/Portfolio/Portfolio';
 function App() {
   
   useEffect(() => {
-    // Fires off a silent ping to the backend root path as soon as the site opens.
-    // This wakes up the Render free-tier container early so it is ready by the time they reach the contact form.
     fetch("https://web-portfolio-1-yfnm.onrender.com")
       .then(() => console.log("Backend container spun up successfully."))
       .catch((err) => console.log("Backend wake-up call sent. Waiting for spin up..."));
