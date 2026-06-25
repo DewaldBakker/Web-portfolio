@@ -1,25 +1,22 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const { Resend } = require("resend"); // Keeps the Resend import you added
+const { Resend } = require("resend");
 
-const app = express(); // Kept right here to fix the "app is not defined" issue
+const app = express();
 
-// Configure CORS to grant smooth access to your testing environment
+
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow local development or requests with no origin (like mobile apps/Postman)
       if (!origin || origin.startsWith("http://localhost:")) {
         return callback(null, true);
       }
-      
-      // Allow ANY Vercel deployment domain automatically
+  
       if (origin.endsWith(".vercel.app")) {
         return callback(null, true);
       }
       
-      // If it's a completely different domain, reject it
       return callback(new Error("Not allowed by CORS"));
     },
     methods: ["POST", "GET", "OPTIONS"],
