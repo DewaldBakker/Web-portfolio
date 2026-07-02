@@ -92,7 +92,7 @@ const Skills = () => (
 
 <div className="cv-btn-wrapper">
   <a
-    href="https://raw.githubusercontent.com/DewaldBakker/CV/main/CV%20Dewald%20Bakker%20601829%20(1).pdf"
+    href="https://raw.githubusercontent.com/DewaldBakker/CV/main/CV%20Dewald%20Bakker%20601829.pdf"
     download="Dewald-Bakker-CV.pdf"
   >
     <button className="cv-btn">Download My CV</button>
